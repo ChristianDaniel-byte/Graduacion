@@ -76,22 +76,69 @@
 </head>
 <body>
     <section class="salon">
-    <div class="contenedor-mesa"data-mesa="1">
-    <i class="fas fa-dot-circle mesa"></i>
-    <i class="fas fa-chair silla silla-pos1 silla-reservada" title="Esta silla ya la reservó el hombre araña" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></i>
-    <i class="fas fa-chair silla silla-pos2"></i>
-    <i class="fas fa-chair silla silla-pos3"></i>
-    <i class="fas fa-chair silla silla-pos4"></i>
-    <i class="fas fa-chair silla silla-pos5"></i>
-    <i class="fas fa-chair silla silla-pos6"></i>
-    <i class="fas fa-chair silla silla-pos7"></i>
-    <i class="fas fa-chair silla silla-pos8"></i>
+        <?php
+        include("procesarplantillas.php");
+        echo $mesas;
+        
+        
+        ?>
+    </section>
+    <div class="modal" id="ventanaConfirmacion" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Confirmar reservacion</h5>
+        </div>
+        <div class="modal-body">
+            <p>¿Confirmar su reservación?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="btnCancelar">No</button>
+            <button class="btn btn-primary" id="btnAceptar">Si</button>
+        </div>
+        </div>
+        </div>
+    </div>
     </div>
 
-    </section>
     <script>
-        $(function () {
+        var idSilla = 0;
+
+
+    $(function(){
     $('[data-toggle="tooltip"]').tooltip();
+    $("#ventanaConfirmacion").modal({show:false});
+
+    $(".silla").on("click",function(){
+        var reservada = $(this).hasClass("silla-reservada");
+
+        if(!reservada){
+            idSilla = $(this).data("id");
+            $("#ventanaConfirmacion").modal("show");
+        }
+        else{
+
+        };
+
+    });
+    $("#btnCancelar").on("click",function(){
+        $("#ventanaConfirmacion").modal("hide");
+
+    });
+    $("#btnAceptar".on("click",function(){
+        $.ajax({
+            url:"confirmarReservacion.php"
+            method: "POST";
+            data:{
+                silla:idSilla
+            }
+        });
+        .done(function(){
+
+            });
+
+        });
+    });
 });
     </script>
 </body>
